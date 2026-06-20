@@ -71,3 +71,4 @@ npm run dev      # Runs dev client on http://localhost:5173 (proxied to API port
    - `VITE_API_URL`: Set this to your production backend URL (e.g. `https://vibe-store-api.onrender.com`).
 5. Run deploy. Vercel compiles using `npm run build` and serves static pages over edge CDNs.
 # velocity
+# velocity
