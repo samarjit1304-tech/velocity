@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: vibe_mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - vibe_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: vibe_backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongodb:27017/vibestore
+      - NODE_ENV=production
+    depends_on:
+      - mongodb
+    networks:
+      - vibe_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: vibe_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - vibe_network
+
+volumes:
+  mongodb_data:
+
+networks:
+  vibe_network:
+    driver: bridge

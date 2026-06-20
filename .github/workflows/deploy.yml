@@ -1,0 +1,62 @@
+name: CI/CD Pipeline - Vibe Store™
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v3
+        with:
+          node-node: '18.x'
+          cache: 'npm'
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
+
+      - name: Install & Validate Backend
+        run: |
+          cd backend
+          npm ci
+          # Optionally run test commands: npm test
+
+      - name: Install, Validate & Compile Frontend
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+
+  dockerize:
+    needs: validate
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Backend Image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: false # Set true and add credentials to push to DockerHub/GHCR
+          tags: vibestore-backend:latest
+
+      - name: Build Frontend Image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: false # Set true and add credentials to push to DockerHub/GHCR
+          tags: vibestore-frontend:latest

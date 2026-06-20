@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIBE STORE | Luxury E-Commerce Preview</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#000000',
+            white: '#FFFFFF',
+            powder: '#B6DFF1',
+            accent: '#DDEEFF',
+            light: '#F5FAFF',
+            luxury: {
+              dark: '#111111',
+              grey: '#555555',
+              lightGrey: '#EAEAEA',
+              charcoal: '#1C1C1E',
+              silver: '#F2F2F7',
+              gold: '#D4AF37'
+            }
+          },
+          fontFamily: {
+            sans: ['Outfit', 'Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'Georgia', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style type="text/css">
+    body {
+      font-family: 'Outfit', 'Inter', sans-serif;
+      scroll-behavior: smooth;
+    }
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F2F2F7;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D1D1D6;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #B6DFF1;
+    }
+  </style>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-white text-black antialiased">
+  
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="env,react">
+    console.log("React App script is executing!");
+    const { useState, useEffect, useMemo, useRef } = React;
+
+    const initialProducts = [
+      {
+        _id: 'prod1',
+        name: 'Aether Chrono Watch',
+        description: 'An architectural timepiece constructed from raw brushed titanium, featuring a Swiss automatic movement and a sapphire crystal dial window. Designed in Copenhagen.',
+        price: 850.00,
+        discountPrice: 790.00,
+        sku: 'ACC-CHRONO-01',
+        brand: 'Aether',
+        category: 'accessories',
+        stockCount: 15,
+        rating: 4.8,
+        tags: ['watch', 'titanium', 'automatic', 'minimalist'],
+        features: [
+          'Swiss Automatic Sellita SW200-1 movement',
+          'Grade 5 sandblasted titanium casing',
+          'Waterproof to 10 ATM / 100 meters',
+          'Italian full-grain calfskin leather strap'
+        ],
+        specifications: [
+          { name: 'Case Width', value: '40 mm' },
+          { name: 'Case Thickness', value: '11.2 mm' },
+          { name: 'Power Reserve', value: '38 Hours' }
+        ],
+        images: [
+          'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800',
+          'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?q=80&w=800',
+          'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?q=80&w=800'
+        ]
+      },
+      {
+        _id: 'prod2',
+        name: 'Nero Leather Cardholder',
+        description: 'Ultra-thin vertical card sleeve crafted from vegetable-tanned Vachetta leather. Painted edges finished by hand. Holds up to 6 cards and folded cash.',
+        price: 95.00,
+        discountPrice: 85.00,
+        sku: 'ACC-CARD-02',
+        brand: 'Vibe Atelier',
+        category: 'accessories',
+        stockCount: 50,
+        rating: 4.9,
+        tags: ['leather', 'cardholder', 'wallet', 'accessories'],
+        features: [
+          'Hand-sewn with waxed linen thread',
+          'Vegetable-tanned leather that patinas beautifully',
+          '4 external card slots'
+        ],
+        specifications: [
+          { name: 'Dimensions', value: '10 cm x 7.5 cm x 0.4 cm' },
+          { name: 'Origin', value: 'Handmade in Tuscany, Italy' }
+        ],
+        images: [
+          'https://images.unsplash.com/photo-1627124765135-561902f232cd?q=80&w=800',
+          'https://images.unsplash.com/photo-1589756823851-ede1be674187?q=80&w=800',
+          'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?q=80&w=800'
+        ]
+      },
+      {
+        _id: 'prod3',
+        name: 'Satin Silk Resort Shirt',
+        description: 'A flowing, relaxed-fit resort collar shirt woven from heavyweight 22-momme organic mulberry silk. Offers a subtle matte lustre and natural temperature regulation.',
+        price: 240.00,
+        discountPrice: 0.00,
+        sku: 'APP-SILK-03',
+        brand: 'Vibe Atelier',
+        category: 'apparel',
+        stockCount: 20,
+        rating: 4.7,
+        tags: ['silk', 'shirt', 'resort', 'apparel'],
+        features: [
+          '100% Organic Mulberry Silk',
+          'Mother of pearl buttons',
+          'Side slit vents'
+        ],
+        specifications: [
+          { name: 'Fabric Weight', value: '22 Momme' },
+          { name: 'Care', value: 'Dry clean only' }
+        ],
+        images: [
+          'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=800',
+          'https://images.unsplash.com/photo-1603252109303-2751441dd157?q=80&w=800'
+        ]
+      },
+      {
+        _id: 'prod4',
+        name: 'Alpaca Oversized Trench Coat',
+        description: 'A luxurious winter coat spun from Peruvian baby-alpaca fibers blended with virgin wool. Styled with a classic double-breasted closure, storm flap, and structural belt.',
+        price: 1100.00,
+        discountPrice: 950.00,
+        sku: 'APP-COAT-04',
+        brand: 'Aether',
+        category: 'apparel',
+        stockCount: 8,
+        rating: 4.9,
+        tags: ['alpaca', 'coat', 'trench', 'apparel', 'winter'],
+        features: [
+          '70% Baby Alpaca, 30% Virgin Wool',
+          '100% Cupro silk lining'
+        ],
+        specifications: [
+          { name: 'Color', value: 'Camel Tan' },
+          { name: 'Length', value: 'Calf-length' }
+        ],
+        images: [
+          'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=800',
+          'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=800'
+        ]
+      },
+      {
+        _id: 'prod5',
+        name: 'Cashmere Lounge Sweater',
+        description: 'The ultimate luxury essential. Spun from double-ply, long-staple Mongolian cashmere, offering unparalleled softness and lofted warmth. Ribbed trim details.',
+        price: 320.00,
+        discountPrice: 280.00,
+        sku: 'APP-SWEATER-05',
+        brand: 'Vibe Atelier',
+        category: 'apparel',
+        stockCount: 25,
+        rating: 4.6,
+        tags: ['cashmere', 'sweater', 'apparel', 'winter'],
+        features: [
+          '100% Pure Mongolian Cashmere',
+          'Mock collar neck profile'
+        ],
+        specifications: [
+          { name: 'Gauge', value: '12 GG' }
+        ],
+        images: [
+          'https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=800',
+          'https://images.unsplash.com/photo-1614975058789-41316d0e2e9c?q=80&w=800'
+        ]
+      },
+      {
+        _id: 'prod6',
+        name: 'Carrara Marble Tray',
+        description: 'Carved from a single solid block of Italian Carrara marble, featuring polished curves, veining, and a velvet protective base.',
+        price: 135.00,
+        discountPrice: 0.00,
+        sku: 'HOM-TRAY-06',
+        brand: 'Stone & Vessel',
+        category: 'home-living',
+        stockCount: 30,
+        rating: 4.8,
+        tags: ['marble', 'tray', 'home', 'living', 'stone'],
+        features: [
+          '100% Italian white Carrara marble',
+          'Velvet backing prevents scratching'
+        ],
+        specifications: [
+          { name: 'Dimensions', value: '30 cm x 20 cm x 3 cm' }
+        ],
+        images: [
+          'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=800',
+          'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800'
+        ]
+      }
+    ];
+
+    const RatingStars = ({ value }) => {
+      const stars = [];
+      const rounded = Math.floor(value);
+      for (let i = 1; i <= 5; i++) {
+        if (i <= rounded) {
+          stars.push(<span key={i} className="text-yellow-500">&#9733;</span>);
+        } else {
+          stars.push(<span key={i} className="text-gray-300">&#9733;</span>);
+        }
+      }
+      return <div className="flex text-xs">{stars}</div>;
+    };
+
+    // Main App Container
+    const App = () => {
+      const [user, setUser] = useState(() => {
+        try {
+          const saved = localStorage.getItem('vibe_user');
+          return saved ? JSON.parse(saved) : { name: 'Elena Rostova', email: 'user@vibestore.com', role: 'admin', addresses: [{ street: '12 Luxury Ave, Penthouse A', city: 'New York', state: 'NY', postalCode: '10001', country: 'United States', isDefault: true }] };
+        } catch (e) {
+          return { name: 'Elena Rostova', email: 'user@vibestore.com', role: 'admin', addresses: [{ street: '12 Luxury Ave, Penthouse A', city: 'New York', state: 'NY', postalCode: '10001', country: 'United States', isDefault: true }] };
+        }
+      });
+
+      const [cart, setCart] = useState(() => {
+        try {
+          const saved = localStorage.getItem('vibe_cart');
+          return saved ? JSON.parse(saved) : [];
+        } catch (e) {
+          return [];
+        }
+      });
+
+      const [wishlist, setWishlist] = useState(() => {
+        try {
+          const saved = localStorage.getItem('vibe_wishlist');
+          return saved ? JSON.parse(saved) : [];
+        } catch (e) {
+          return [];
+        }
+      });
+
+      const [products, setProducts] = useState(() => {
+        try {
+          const saved = localStorage.getItem('vibe_products');
+          return saved ? JSON.parse(saved) : initialProducts;
+        } catch (e) {
+          return initialProducts;
+        }
+      });
+
+      // Coupon state mock
+      const [coupons, setCoupons] = useState([
+        { code: 'VIBE10', discountPercent: 10, minSpend: 50, expireDate: '2026-12-31' },
+        { code: 'LUXE20', discountPercent: 20, minSpend: 200, expireDate: '2026-12-31' }
+      ]);
+
+      // Route State Controller
+      const [currentRoute, setCurrentRoute] = useState({ path: 'home', params: {} });
+      const [selectedCategory, setSelectedCategory] = useState('');
+      const [showChat, setShowChat] = useState(false);
+      const [chatMessages, setChatMessages] = useState([
+        { sender: 'ai', text: 'Welcome to Vibe Store support. I am your luxury AI stylist. Ask me about matching collection coordinates.' }
+      ]);
+      const [chatInput, setChatInput] = useState('');
+
+      useEffect(() => {
+        localStorage.setItem('vibe_user', user ? JSON.stringify(user) : '');
+      }, [user]);
+
+      useEffect(() => {
+        localStorage.setItem('vibe_cart', JSON.stringify(cart));
+      }, [cart]);
+
+      useEffect(() => {
+        localStorage.setItem('vibe_wishlist', JSON.stringify(wishlist));
+      }, [wishlist]);
+
+      useEffect(() => {
+        localStorage.setItem('vibe_products', JSON.stringify(products));
+      }, [products]);
+
+      const itemsPrice = cart.reduce((sum, item) => {
+        const price = item.discountPrice > 0 ? item.discountPrice : item.price;
+        return sum + price * item.qty;
+      }, 0);
+      const shippingPrice = itemsPrice > 200 || itemsPrice === 0 ? 0 : 15;
+      const taxPrice = itemsPrice * 0.085;
+      const totalPrice = itemsPrice + shippingPrice + taxPrice;
+
+      const navigateTo = (path, params = {}) => {
+        setCurrentRoute({ path, params });
+        window.scrollTo(0, 0);
+      };
+
+      const handleAddToCart = (product, qty = 1) => {
+        setCart(prev => {
+          const exists = prev.find(item => item._id === product._id);
+          if (exists) {
+            return prev.map(item => item._id === product._id ? { ...item, qty: Math.min(product.stockCount, item.qty + qty) } : item);
+          }
+          return [...prev, { ...product, qty }];
+        });
+      };
+
+      const handleRemoveFromCart = (productId) => {
+        setCart(prev => prev.filter(item => item._id !== productId));
+      };
+
+      const handleToggleWishlist = (product) => {
+        setWishlist(prev => {
+          const exists = prev.some(item => item._id === product._id);
+          if (exists) {
+            return prev.filter(item => item._id !== product._id);
+          }
+          return [...prev, product];
+        });
+      };
+
+      const handleSendChatMessage = (e) => {
+        e.preventDefault();
+        if (!chatInput.trim()) return;
+        const userMsg = { sender: 'user', text: chatInput };
+        setChatMessages(prev => [...prev, userMsg]);
+        const inputLower = chatInput.toLowerCase();
+        setChatInput('');
+
+        setTimeout(() => {
+          let reply = 'I suggest matching the Satin Silk Resort Shirt with the Alpaca Trench Coat for structured layering.';
+          if (inputLower.includes('watch') || inputLower.includes('timepiece')) {
+            reply = 'The Aether Chrono Watch is crafted from sandblasted Grade 5 titanium, featuring double-domed sapphire glass.';
+          } else if (inputLower.includes('marble') || inputLower.includes('tray')) {
+            reply = 'The Carrara Marble Tray is carved from solid Italian marble and pairs perfectly with the borosilicate glass burner.';
+          }
+          setChatMessages(prev => [...prev, { sender: 'ai', text: reply }]);
+        }, 800);
+      };
+
+      useEffect(() => {
+        if (window.lucide) {
+          window.lucide.createIcons();
+        }
+      }, [currentRoute, cart, wishlist, showChat, chatMessages]);
+
+      return (
+        <div className="flex flex-col min-h-screen bg-white">
+          
+          {/* NAVBAR */}
+          <nav className="fixed top-0 left-0 w-full z-50 glass-nav py-4">
+            <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+              <button onClick={() => navigateTo('home')} className="text-lg md:text-xl font-semibold tracking-[0.2em] text-primary">
+                VIBE STORE
+              </button>
+
+              <div className="hidden lg:flex items-center space-x-8">
+                <button onClick={() => { setSelectedCategory(''); navigateTo('shop'); }} className="text-xs uppercase tracking-widest font-semibold hover:text-luxury-grey transition-colors">Shop All</button>
+                <button onClick={() => { setSelectedCategory('apparel'); navigateTo('shop'); }} className="text-xs uppercase tracking-widest font-semibold hover:text-luxury-grey transition-colors">Apparel</button>
+                <button onClick={() => { setSelectedCategory('accessories'); navigateTo('shop'); }} className="text-xs uppercase tracking-widest font-semibold hover:text-luxury-grey transition-colors">Accessories</button>
+                <button onClick={() => { setSelectedCategory('home-living'); navigateTo('shop'); }} className="text-xs uppercase tracking-widest font-semibold hover:text-luxury-grey transition-colors">Home Living</button>
+                <button onClick={() => navigateTo('about')} className="text-xs uppercase tracking-widest font-semibold hover:text-luxury-grey transition-colors">Story</button>
+                <button onClick={() => navigateTo('faq')} className="text-xs uppercase tracking-widest font-semibold hover:text-luxury-grey transition-colors">FAQ</button>
+              </div>
+
+              <div className="flex items-center space-x-6 text-primary">
+                <button onClick={() => navigateTo('shop')} className="hover:text-luxury-grey">
+                  <i data-lucide="search" className="w-4 h-4"></i>
+                </button>
+
+                <button onClick={() => navigateTo('wishlist')} className="relative hover:text-luxury-grey">
+                  <i data-lucide="heart" className="w-4 h-4"></i>
+                  {wishlist.length > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 bg-primary text-white text-[8px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold">
+                      {wishlist.length}
+                    </span>
+                  )}
+                </button>
+
+                <button onClick={() => navigateTo('cart')} className="relative hover:text-luxury-grey">
+                  <i data-lucide="shopping-bag" className="w-4 h-4"></i>
+                  {cart.length > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 bg-primary text-white text-[8px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold">
+                      {cart.reduce((a, b) => a + b.qty, 0)}
+                    </span>
+                  )}
+                </button>
+
+                {/* Account Settings Menu */}
+                <div className="relative group">
+                  <button className="hover:text-luxury-grey">
+                    <i data-lucide="user" className="w-4 h-4"></i>
+                  </button>
+                  <div className="absolute right-0 mt-2 w-48 bg-white border rounded-xl shadow-lg py-2 hidden group-hover:block z-50">
+                    {user ? (
+                      <>
+                        <div className="px-4 py-1.5 border-b mb-1">
+                          <p className="text-[10px] text-gray-400">Signed in as</p>
+                          <p className="text-xs font-semibold text-primary truncate">{user.name}</p>
+                        </div>
+                        <button onClick={() => navigateTo('dashboard')} className="w-full text-left px-4 py-2 text-xs text-primary hover:bg-luxury-silver">Dashboard</button>
+                        {user.role === 'admin' && (
+                          <button onClick={() => navigateTo('admin')} className="w-full text-left px-4 py-2 text-xs text-luxury-gold hover:bg-luxury-silver font-semibold">Admin Panel</button>
+                        )}
+                        <button onClick={() => { setUser(null); navigateTo('home'); }} className="w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-red-50 border-t mt-1">Sign Out</button>
+                      </>
+                    ) : (
+                      <>
+                        <button onClick={() => navigateTo('login')} className="w-full text-left px-4 py-2 text-xs text-primary hover:bg-luxury-silver font-semibold">Sign In</button>
+                        <button onClick={() => navigateTo('register')} className="w-full text-left px-4 py-2 text-xs text-primary hover:bg-luxury-silver">Create Account</button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          {/* DYNAMIC SCREEN ROUTER */}
+          <main className="flex-grow pt-24">
+            {currentRoute.path === 'home' && (
+              <HomeView
+                products={products}
+                navigateTo={navigateTo}
+                handleAddToCart={handleAddToCart}
+                handleToggleWishlist={handleToggleWishlist}
+                wishlist={wishlist}
+              />
+            )}
+
+            {currentRoute.path === 'shop' && (
+              <ShopView
+                products={products}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+                navigateTo={navigateTo}
+                handleAddToCart={handleAddToCart}
+                handleToggleWishlist={handleToggleWishlist}
+                wishlist={wishlist}
+              />
+            )}
+
+            {currentRoute.path === 'details' && (
+              <DetailsView
+                productId={currentRoute.params.id}
+                products={products}
+                navigateTo={navigateTo}
+                handleAddToCart={handleAddToCart}
+                handleToggleWishlist={handleToggleWishlist}
+                wishlist={wishlist}
+              />
+            )}
+
+            {currentRoute.path === 'wishlist' && (
+              <WishlistView
+                wishlist={wishlist}
+                navigateTo={navigateTo}
+                handleToggleWishlist={handleToggleWishlist}
+              />
+            )}
+
+            {currentRoute.path === 'cart' && (
+              <CartView
+                cart={cart}
+                setCart={setCart}
+                itemsPrice={itemsPrice}
+                shippingPrice={shippingPrice}
+                taxPrice={taxPrice}
+                totalPrice={totalPrice}
+                navigateTo={navigateTo}
+                handleRemove={handleRemoveFromCart}
+              />
+            )}
+
+            {currentRoute.path === 'checkout' && (
+              <CheckoutView
+                cart={cart}
+                setCart={setCart}
+                totalPrice={totalPrice}
+                user={user}
+                navigateTo={navigateTo}
+              />
+            )}
+
+            {currentRoute.path === 'about' && <AboutView />}
+
+            {currentRoute.path === 'faq' && <FaqView />}
+
+            {currentRoute.path === 'privacy' && <PrivacyView />}
+
+            {currentRoute.path === 'login' && <LoginView setUser={setUser} navigateTo={navigateTo} />}
+
+            {currentRoute.path === 'register' && <RegisterView setUser={setUser} navigateTo={navigateTo} />}
+
+            {currentRoute.path === 'dashboard' && <DashboardView user={user} navigateTo={navigateTo} />}
+
+            {currentRoute.path === 'admin' && (
+              <AdminView
+                products={products}
+                setProducts={setProducts}
+                coupons={coupons}
+                setCoupons={setCoupons}
+                user={user}
+                navigateTo={navigateTo}
+              />
+            )}
+          </main>
+
+          {/* FLOATING AI CHAT BOT WIDGET */}
+          <div className="fixed bottom-6 right-6 z-50">
+            {!showChat ? (
+              <button onClick={() => setShowChat(true)} className="bg-primary hover:bg-luxury-dark text-white rounded-full p-4 shadow-lg border border-luxury-charcoal flex items-center justify-center">
+                <i data-lucide="message-square" className="w-5 h-5"></i>
+              </button>
+            ) : (
+              <div className="w-80 h-[380px] bg-white rounded-2xl border shadow-xl flex flex-col overflow-hidden animate-in fade-in duration-200">
+                <div className="bg-primary text-white p-3 flex justify-between items-center">
+                  <div className="flex items-center space-x-2">
+                    <i data-lucide="sparkles" className="w-3.5 h-3.5 text-powder"></i>
+                    <span className="text-[10px] uppercase tracking-widest font-bold">Vibe AI Stylist</span>
+                  </div>
+                  <button onClick={() => setShowChat(false)} className="text-gray-400 hover:text-white">
+                    <i data-lucide="x" className="w-4 h-4"></i>
+                  </button>
+                </div>
+                
+                <div className="flex-grow p-3 bg-luxury-silver/30 overflow-y-auto space-y-3">
+                  {chatMessages.map((msg, i) => (
+                    <div key={i} className={`flex ${msg.sender === 'user' ? 'justify-end':'justify-start'}`}>
+                      <div className={`p-2.5 rounded-xl text-xs max-w-[80%] ${msg.sender === 'user' ? 'bg-primary text-white':'bg-white text-primary border shadow-sm'}`}>
+                        {msg.text}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <form onSubmit={handleSendChatMessage} className="p-2 border-t flex gap-2">
+                  <input
+                    type="text"
+                    value={chatInput}
+                    onChange={e=>setChatInput(e.target.value)}
+                    placeholder="Ask stylistic suggestions..."
+                    className="flex-grow bg-luxury-silver border-0 text-xs py-2 px-3 rounded-lg outline-none"
+                  />
+                  <button type="submit" className="bg-primary text-white p-2 rounded-lg"><i data-lucide="send" className="w-3.5 h-3.5"></i></button>
+                </form>
+              </div>
+            )}
+          </div>
+
+          {/* FOOTER */}
+          <footer className="bg-primary text-white pt-16 pb-10 mt-20 border-t border-luxury-charcoal">
+            <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="space-y-4">
+                <span className="text-md font-semibold tracking-widest">VIBE STORE</span>
+                <p className="text-xs text-luxury-grey leading-relaxed font-light">
+                  An editing of premium essentials, curated for modern rituals. Formulated on minimalistic principles.
+                </p>
+              </div>
+              <div className="space-y-3">
+                <h4 className="text-[10px] uppercase tracking-widest font-semibold text-powder">Directory</h4>
+                <div className="flex flex-col space-y-1.5 text-xs text-luxury-grey font-light">
+                  <button onClick={() => navigateTo('shop')} className="text-left hover:text-white">Catalog</button>
+                  <button onClick={() => navigateTo('about')} className="text-left hover:text-white">Our Story</button>
+                  <button onClick={() => navigateTo('privacy')} className="text-left hover:text-white">Privacy Policy</button>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <h4 className="text-[10px] uppercase tracking-widest font-semibold text-powder">Support</h4>
+                <p className="text-xs text-luxury-grey font-light">
+                  concierge@vibestore.com <br /> +45 80 12 34 56
+                </p>
+              </div>
+              <div className="space-y-3">
+                <h4 className="text-[10px] uppercase tracking-widest font-semibold text-powder">Journal</h4>
+                <p className="text-xs text-luxury-grey font-light">Subscribe to private previews.</p>
+                <div className="flex space-x-2">
+                  <input type="email" placeholder="Your email" className="bg-luxury-charcoal border-0 text-xs py-2 px-3 rounded text-white outline-none w-full" />
+                  <button className="bg-white text-primary text-xs uppercase px-4 py-2 rounded font-semibold hover:bg-powder">Join</button>
+                </div>
+              </div>
+            </div>
+          </footer>
+
+        </div>
+      );
+    };
+
+    // HOME VIEW COMPONENT
+    const HomeView = ({ products, navigateTo, handleAddToCart, handleToggleWishlist, wishlist }) => {
+      const categories = [
+        { name: 'Apparel', slug: 'apparel', image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=800' },
+        { name: 'Accessories', slug: 'accessories', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800' },
+        { name: 'Home Living', slug: 'home-living', image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=800' },
+        { name: 'Fragrance', slug: 'fragrance', image: 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?q=80&w=800' }
+      ];
+
+      return (
+        <div className="space-y-20 animate-in fade-in duration-300">
+          <section className="relative h-[80vh] min-h-[500px] bg-luxury-charcoal flex items-center justify-center text-center overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1600" className="absolute inset-0 w-full h-full object-cover opacity-45" alt="Banner" />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent" />
+            
+            <div className="relative max-w-4xl px-6 space-y-6 text-white z-10 flex flex-col items-center">
+              <span className="text-xs uppercase tracking-[0.4em] text-powder font-semibold">The Vibe Standard</span>
+              <h1 className="text-4xl md:text-6xl font-light tracking-widest uppercase">SILENT LUXURY</h1>
+              <p className="text-sm font-light text-luxury-lightGrey tracking-wide max-w-md">Minimal silhouettes crafted from baby alpaca, mulberry silk, and Carrara stone.</p>
+              <button onClick={() => navigateTo('shop')} className="bg-white text-primary text-xs uppercase tracking-widest font-bold px-8 py-3 rounded-xl hover:bg-powder transition-colors mt-4 shadow-lg flex items-center">
+                <span>Explore Catalog</span>
+                <i data-lucide="arrow-right" className="w-3.5 h-3.5 ml-2"></i>
+              </button>
+            </div>
+          </section>
+
+          <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-8">
+            <h2 className="text-xl tracking-widest uppercase font-light text-center">Shop By Category</h2>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+              {categories.map(cat => (
+                <div key={cat.slug} className="relative aspect-[4/5] rounded-2xl overflow-hidden group shadow">
+                  <img src={cat.image} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt={cat.name} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent" />
+                  <div className="absolute inset-x-4 bottom-4 flex justify-between items-end text-white">
+                    <div>
+                      <h3 className="text-xs uppercase font-semibold tracking-wider">{cat.name}</h3>
+                      <span className="text-[9px] text-gray-400 font-light">Explore line</span>
+                    </div>
+                    <button onClick={() => { setSelectedCategory(cat.slug); navigateTo('shop'); }} className="bg-white text-primary rounded-full p-2 hover:bg-powder">
+                      <i data-lucide="arrow-right" className="w-3 h-3"></i>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-8">
+            <div className="flex justify-between items-end border-b pb-3">
+              <h2 className="text-xl tracking-widest uppercase font-light">Featured Products</h2>
+              <button onClick={() => navigateTo('shop')} className="text-xs uppercase tracking-wider text-primary hover:text-luxury-grey">View All</button>
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+              {products.slice(0, 4).map(prod => (
+                <ProductGridCard
+                  key={prod._id}
+                  product={prod}
+                  navigateTo={navigateTo}
+                  handleAddToCart={handleAddToCart}
+                  handleToggleWishlist={handleToggleWishlist}
+                  isWishlisted={wishlist.some(item => item._id === prod._id)}
+                />
+              ))}
+            </div>
+          </section>
+        </div>
+      );
+    };
+
+    // PRODUCT CARD
+    const ProductGridCard = ({ product, navigateTo, handleAddToCart, handleToggleWishlist, isWishlisted }) => {
+      const activePrice = product.discountPrice > 0 ? product.discountPrice : product.price;
+      return (
+        <div className="group relative flex flex-col justify-between overflow-hidden">
+          <div onClick={() => navigateTo('details', { id: product._id })} className="relative aspect-[4/5] rounded-xl overflow-hidden bg-luxury-silver cursor-pointer shadow-sm">
+            <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103" />
+            
+            <button
+              onClick={(e) => { e.stopPropagation(); handleToggleWishlist(product); }}
+              className="absolute top-3 right-3 bg-white/70 p-2 rounded-full hover:bg-white text-primary shadow backdrop-blur-md"
+            >
+              <span className={isWishlisted ? 'text-red-500' : 'text-primary'}>&#9829;</span>
+            </button>
+
+            <button
+              onClick={(e) => { e.stopPropagation(); handleAddToCart(product); alert(`${product.name} added to bag.`); }}
+              className="absolute bottom-3 inset-x-3 bg-primary text-white text-[10px] uppercase font-bold py-2.5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow"
+            >
+              Quick Add
+            </button>
+          </div>
+
+          <div className="mt-3 space-y-1">
+            <div className="flex justify-between items-center text-[9px] uppercase tracking-wider text-luxury-grey font-light">
+              <span>{product.brand}</span>
+              <RatingStars value={product.rating} />
+            </div>
+            <h4 onClick={() => navigateTo('details', { id: product._id })} className="text-xs font-semibold text-primary hover:text-luxury-grey cursor-pointer truncate">{product.name}</h4>
+            <p className="text-xs font-semibold text-primary">
+              ${activePrice.toFixed(2)}{' '}
+              {product.discountPrice > 0 && <span className="text-[10px] text-gray-400 line-through font-light">${product.price.toFixed(2)}</span>}
+            </p>
+          </div>
+        </div>
+      );
+    };
+
+    // SHOP CATALOG VIEW
+    const ShopView = ({ products, selectedCategory, setSelectedCategory, navigateTo, handleAddToCart, handleToggleWishlist, wishlist }) => {
+      const [search, setSearch] = useState('');
+      
+      const filtered = useMemo(() => {
+        return products.filter(p => {
+          if (selectedCategory && p.category !== selectedCategory) return false;
+          if (search && !p.name.toLowerCase().includes(search.toLowerCase())) return false;
+          return true;
+        });
+      }, [products, selectedCategory, search]);
+
+      return (
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-10 space-y-8 animate-in fade-in duration-300">
+          <div>
+            <span className="text-[10px] uppercase tracking-[0.3em] text-luxury-grey">Vibe Catalogue</span>
+            <h1 className="text-2xl tracking-widest uppercase font-light">Shop Catalogue</h1>
+          </div>
+
+          <div className="bg-luxury-silver p-5 rounded-2xl grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+            <div className="md:col-span-2">
+              <label className="text-[9px] uppercase tracking-wider font-semibold text-primary block mb-1">Search Keywords</label>
+              <input
+                type="text"
+                placeholder="Search watches, linen..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full bg-white text-xs border rounded-xl py-2 px-3 outline-none"
+              />
+            </div>
+            <div>
+              <label className="text-[9px] uppercase tracking-wider font-semibold text-primary block mb-1">Filter Line</label>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="w-full bg-white text-xs border rounded-xl py-2 px-3 outline-none"
+              >
+                <option value="">All Categories</option>
+                <option value="apparel">Apparel</option>
+                <option value="accessories">Accessories</option>
+                <option value="home-living">Home Living</option>
+              </select>
+            </div>
+            <div className="pt-4 text-right">
+              <button onClick={() => { setSearch(''); setSelectedCategory(''); }} className="text-xs uppercase tracking-wider text-luxury-grey border border-dashed border-luxury-grey hover:bg-white hover:text-primary transition-all py-2 px-4 rounded-xl font-semibold">Reset</button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {filtered.map(prod => (
+              <ProductGridCard
+                key={prod._id}
+                product={prod}
+                navigateTo={navigateTo}
+                handleAddToCart={handleAddToCart}
+                handleToggleWishlist={handleToggleWishlist}
+                isWishlisted={wishlist.some(item => item._id === prod._id)}
+              />
+            ))}
+          </div>
+        </div>
+      );
+    };
+
+    // DETAILS VIEW with AI Recommendation panels
+    const DetailsView = ({ productId, products, navigateTo, handleAddToCart, handleToggleWishlist, wishlist }) => {
+      const product = products.find(p => p._id === productId) || products[0];
+      const [activeImg, setActiveImg] = useState(product.images[0]);
+      const [qty, setQty] = useState(1);
+      const isWishlisted = wishlist.some(item => item._id === product._id);
+
+      // AI recommendation overlap score simulator
+      const recommendedItems = useMemo(() => {
+        return products
+          .filter(p => p._id !== product._id)
+          .slice(0, 3);
+      }, [products, product]);
+
+      const handleAdd = () => {
+        handleAddToCart(product, qty);
+        alert(`${product.name} added to your basket.`);
+      };
+
+      return (
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-10 space-y-16 animate-in fade-in duration-300">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            
+            <div className="lg:col-span-7 space-y-4">
+              <div className="aspect-square rounded-2xl overflow-hidden bg-luxury-silver">
+                <img src={activeImg} className="w-full h-full object-cover" alt={product.name} />
+              </div>
+              <div className="grid grid-cols-3 gap-4">
+                {product.images.map((img, i) => (
+                  <button key={i} onClick={() => setActiveImg(img)} className="aspect-square rounded-xl overflow-hidden border">
+                    <img src={img} className="w-full h-full object-cover" alt="Gallery" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="lg:col-span-5 space-y-6">
+              <div className="space-y-1">
+                <span className="text-[10px] uppercase tracking-wider text-luxury-grey">{product.brand}</span>
+                <h2 className="text-2xl uppercase tracking-widest font-light text-primary">{product.name}</h2>
+                <RatingStars value={product.rating} />
+              </div>
+
+              <div className="border-y py-4 text-xl font-light text-primary">
+                ${product.price.toFixed(2)}
+              </div>
+
+              <p className="text-xs text-luxury-grey font-light leading-relaxed">
+                {product.description}
+              </p>
+
+              <div className="flex items-center space-x-4">
+                <span className="text-xs uppercase tracking-wider font-semibold text-primary">Quantity</span>
+                <div className="flex border rounded-xl overflow-hidden bg-luxury-silver text-xs">
+                  <button onClick={() => setQty(m => Math.max(1, m - 1))} className="px-3 py-1.5 font-bold">-</button>
+                  <span className="px-4 py-1.5 font-semibold">{qty}</span>
+                  <button onClick={() => setQty(m => Math.min(product.stockCount, m + 1))} className="px-3 py-1.5 font-bold">+</button>
+                </div>
+              </div>
+
+              <div className="flex gap-4 pt-2">
+                <button onClick={handleAdd} className="flex-1 py-3 bg-primary text-white text-xs uppercase font-bold tracking-widest rounded-xl hover:bg-luxury-dark shadow">Add to bag</button>
+                <button onClick={() => { handleToggleWishlist(product); }} className="border p-3 rounded-xl hover:bg-luxury-silver">
+                  <span className={isWishlisted ? 'text-red-500' : 'text-primary'}>&#9829;</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Similarity recommendations matching tags */}
+          {recommendedItems.length > 0 && (
+            <div className="border-t pt-10 space-y-6">
+              <div className="flex items-center space-x-2">
+                <i data-lucide="sparkles" className="w-4 h-4 text-luxury-gold"></i>
+                <h3 className="text-md uppercase tracking-widest font-semibold text-primary">AI Similarity Matches</h3>
+              </div>
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+                {recommendedItems.map(p => (
+                  <div key={p._id} onClick={() => navigateTo('details', { id: p._id })} className="bg-luxury-silver p-4 rounded-xl cursor-pointer hover:shadow-md transition-all flex flex-col justify-between">
+                    <img src={p.images[0]} className="aspect-square object-cover rounded-lg mb-2" alt="Related" />
+                    <h4 className="text-xs font-semibold truncate text-primary">{p.name}</h4>
+                    <p className="text-xs font-bold text-primary">${p.price.toFixed(2)}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+        </div>
+      );
+    };
+
+    // WISHLIST VIEW
+    const WishlistView = ({ wishlist, navigateTo, handleToggleWishlist }) => {
+      return (
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-10 space-y-8 animate-in fade-in duration-300">
+          <div>
+            <span className="text-[10px] uppercase tracking-[0.3em] text-luxury-grey">Saved Pieces</span>
+            <h1 className="text-2xl tracking-widest uppercase font-light">Your Wishlist</h1>
+          </div>
+
+          {wishlist.length === 0 ? (
+            <div className="text-center py-20 border border-dashed rounded-2xl space-y-4">
+              <p className="text-xs text-luxury-grey font-light">Your wishlist is empty.</p>
+              <button onClick={() => navigateTo('shop')} className="bg-primary text-white text-xs uppercase px-6 py-2.5 rounded-xl">Explore catalog</button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+              {wishlist.map(prod => (
+                <div key={prod._id} className="relative bg-luxury-silver p-4 rounded-xl flex flex-col justify-between">
+                  <button onClick={() => handleToggleWishlist(prod)} className="absolute top-2 right-2 text-red-500 text-sm">&#10006;</button>
+                  <img src={prod.images[0]} className="aspect-square object-cover rounded-lg mb-3" alt="Wishlist Item" />
+                  <h4 className="text-xs font-semibold text-primary mb-1 truncate">{prod.name}</h4>
+                  <p className="text-xs font-semibold text-primary mb-3">${prod.price.toFixed(2)}</p>
+                  <button onClick={() => navigateTo('details', { id: prod._id })} className="bg-primary text-white text-[10px] uppercase font-bold py-2 rounded-lg">View Details</button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    // CART VIEW
+    const CartView = ({ cart, setCart, itemsPrice, shippingPrice, taxPrice, totalPrice, navigateTo, handleRemove }) => {
+      return (
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-10 space-y-8 animate-in fade-in duration-300">
+          <div>
+            <span className="text-[10px] uppercase tracking-[0.3em] text-luxury-grey">Retail Basket</span>
+            <h1 className="text-2xl tracking-widest uppercase font-light">Shopping Bag</h1>
+          </div>
+
+          {cart.length === 0 ? (
+            <div className="text-center py-20 border border-dashed rounded-2xl space-y-4">
+              <p className="text-xs text-luxury-grey font-light">Your shopping bag is empty.</p>
+              <button onClick={() => navigateTo('shop')} className="bg-primary text-white text-xs uppercase px-6 py-2.5 rounded-xl">Explore catalog</button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              <div className="lg:col-span-8 space-y-4">
+                {cart.map(item => (
+                  <div key={item._id} className="flex justify-between items-center bg-luxury-silver p-4 rounded-2xl shadow-sm">
+                    <div className="flex items-center space-x-4">
+                      <img src={item.images[0]} className="w-16 h-16 object-cover rounded-xl" alt="Cart Item" />
+                      <div>
+                        <h4 className="text-xs font-semibold text-primary">{item.name}</h4>
+                        <p className="text-[10px] text-luxury-grey">Quantity: {item.qty} &bull; Price: ${item.price.toFixed(2)}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-6">
+                      <span className="text-xs font-semibold text-primary">${(item.price * item.qty).toFixed(2)}</span>
+                      <button onClick={() => handleRemove(item._id)} className="text-red-500 text-xs font-semibold">&#10006;</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="lg:col-span-4 bg-luxury-silver p-6 rounded-2xl space-y-6">
+                <h3 className="text-xs uppercase tracking-widest font-semibold border-b pb-2">Order Summary</h3>
+                <div className="text-xs font-light text-luxury-grey space-y-2">
+                  <div className="flex justify-between"><span>Subtotal</span><span>${itemsPrice.toFixed(2)}</span></div>
+                  <div className="flex justify-between"><span>Shipping</span><span>{shippingPrice === 0 ? 'Free' : `$${shippingPrice.toFixed(2)}`}</span></div>
+                  <div className="flex justify-between"><span>Tax</span><span>${taxPrice.toFixed(2)}</span></div>
+                  <div className="flex justify-between text-primary font-semibold text-sm border-t pt-2"><span>Total</span><span>${totalPrice.toFixed(2)}</span></div>
+                </div>
+
+                <button onClick={() => navigateTo('checkout')} className="w-full bg-primary text-white text-xs uppercase font-bold tracking-widest py-3 rounded-xl hover:bg-luxury-dark shadow flex items-center justify-center">
+                  <span>Checkout</span>
+                  <i data-lucide="arrow-right" className="w-3.5 h-3.5 ml-2"></i>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    // CHECKOUT VIEW
+    const CheckoutView = ({ cart, setCart, totalPrice, user, navigateTo }) => {
+      const [step, setStep] = useState(1);
+      const [shipping, setShipping] = useState({ name: user?.name || '', street: '', city: '', zip: '', country: 'United States' });
+
+      const handlePlaceOrder = () => {
+        setCart([]);
+        setStep(2);
+      };
+
+      return (
+        <div className="max-w-md mx-auto px-6 py-16 space-y-8 animate-in fade-in duration-300">
+          <div>
+            <span className="text-[10px] uppercase tracking-[0.3em] text-luxury-grey">Secured Gateway</span>
+            <h1 className="text-2xl tracking-widest uppercase font-light">Checkout</h1>
+          </div>
+
+          {step === 1 ? (
+            <div className="space-y-4">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-primary">Shipping Information</h3>
+              <input type="text" placeholder="Full Name" value={shipping.name} onChange={e=>setShipping({...shipping, name:e.target.value})} className="w-full bg-luxury-silver py-2.5 px-4 rounded-xl text-xs border-0 outline-none" required />
+              <input type="text" placeholder="Street Address" value={shipping.street} onChange={e=>setShipping({...shipping, street:e.target.value})} className="w-full bg-luxury-silver py-2.5 px-4 rounded-xl text-xs border-0 outline-none" required />
+              <div className="grid grid-cols-2 gap-4">
+                <input type="text" placeholder="City" value={shipping.city} onChange={e=>setShipping({...shipping, city:e.target.value})} className="w-full bg-luxury-silver py-2.5 px-4 rounded-xl text-xs border-0 outline-none" required />
+                <input type="text" placeholder="Zip Code" value={shipping.zip} onChange={e=>setShipping({...shipping, zip:e.target.value})} className="w-full bg-luxury-silver py-2.5 px-4 rounded-xl text-xs border-0 outline-none" required />
+              </div>
+              <button onClick={handlePlaceOrder} className="w-full bg-primary text-white text-xs uppercase font-bold py-3 rounded-xl tracking-widest hover:bg-luxury-dark shadow">Place Order (${totalPrice.toFixed(2)})</button>
+            </div>
+          ) : (
+            <div className="text-center space-y-4 py-8">
+              <div className="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto text-lg">&#10004;</div>
+              <h2 className="text-lg font-light uppercase tracking-widest">Order Placed Successfully</h2>
+              <p className="text-xs text-luxury-grey font-light">A secure confirmation receipt ledger has been dispatched to your email.</p>
+              <button onClick={() => navigateTo('home')} className="bg-primary text-white text-xs uppercase py-2.5 px-6 rounded-xl font-semibold shadow">Back Home</button>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    // ABOUT VIEW
+    const AboutView = () => {
+      return (
+        <div className="max-w-2xl mx-auto px-6 py-16 text-center space-y-8 animate-in fade-in duration-300">
+          <span className="text-xs uppercase tracking-[0.4em] text-luxury-grey">The Story</span>
+          <h1 className="text-3xl tracking-widest uppercase font-light">Form and Material</h1>
+          <p className="text-xs text-luxury-grey font-light leading-relaxed text-left">
+            Established in Copenhagen in 2022, Vibe Store was founded to resolve visual clutter in contemporary lifestyle products. We formulate silhouettes using raw materials with no logotypes or graphics.
+          </p>
+        </div>
+      );
+    };
+
+    // FAQ VIEW
+    const FaqView = () => {
+      const faqs = [
+        { q: 'Is international courier delivery fully complimentary?', a: 'Yes. We provide carbon-neutral courier courier shipping globally at no additional charge for all orders exceeding $150.' },
+        { q: 'What is your refund / return timeline policy?', a: 'We offer an effortless 30-day returns window. Items must be returned in their original packaging blocks.' },
+        { q: 'Are visual logos present on the apparel lines?', a: 'No. To maintain complete silent luxury aesthetics, all collections contain zero visible external logos.' }
+      ];
+
+      return (
+        <div className="max-w-2xl mx-auto px-6 py-12 space-y-8 animate-in fade-in duration-300">
+          <div>
+            <span className="text-[10px] uppercase tracking-widest text-luxury-grey">Faq Concierge</span>
+            <h1 className="text-2xl uppercase tracking-widest font-light">Frequently Asked Questions</h1>
+          </div>
+          <div className="space-y-6">
+            {faqs.map((f, i) => (
+              <div key={i} className="border-b pb-4 space-y-2">
+                <h4 className="text-xs font-semibold text-primary uppercase tracking-wider">{f.q}</h4>
+                <p className="text-xs text-luxury-grey font-light leading-relaxed">{f.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    };
+
+    // PRIVACY POLICY VIEW
+    const PrivacyView = () => {
+      return (
+        <div className="max-w-2xl mx-auto px-6 py-12 space-y-6 text-xs text-luxury-grey font-light leading-relaxed animate-in fade-in duration-300">
+          <h1 className="text-2xl uppercase tracking-widest font-light text-primary mb-6">Privacy Policy</h1>
+          <p>
+            We process transaction logs securely using tokenized Stripe, PayPal, and Razorpay structures. Your address configurations and login credentials are encrypted in MongoDB.
+          </p>
+          <p>
+            No user metrics or analytical behaviors are shared with third-party advertisers. All data collection rules comply with GDPR principles.
+          </p>
+        </div>
+      );
+    };
+
+    // LOGIN VIEW
+    const LoginView = ({ setUser, navigateTo }) => {
+      const [email, setEmail] = useState('');
+      const [password, setPassword] = useState('');
+
+      const handleLoginSubmit = (e) => {
+        e.preventDefault();
+        const loggedUser = {
+          name: email === 'admin@vibestore.com' ? 'System Administrator' : 'Elena Rostova',
+          email,
+          role: email === 'admin@vibestore.com' ? 'admin' : 'user',
+          addresses: [
+            { street: '12 Luxury Ave, Penthouse A', city: 'New York', state: 'NY', postalCode: '10001', country: 'United States', isDefault: true }
+          ]
+        };
+        setUser(loggedUser);
+        navigateTo('home');
+      };
+
+      const handleQuickLoad = (role) => {
+        if (role === 'admin') {
+          setEmail('admin@vibestore.com');
+          setPassword('admin123');
+        } else {
+          setEmail('user@vibestore.com');
+          setPassword('user123');
+        }
+      };
+
+      return (
+        <div className="max-w-sm mx-auto px-6 py-16 space-y-6 animate-in fade-in duration-300">
+          <h1 className="text-xl tracking-widest uppercase font-light text-center">Sign In</h1>
+          
+          <form onSubmit={handleLoginSubmit} className="space-y-4">
+            <input type="email" placeholder="Email Address" value={email} onChange={e=>setEmail(e.target.value)} className="w-full bg-luxury-silver py-2.5 px-4 rounded-xl text-xs outline-none" required />
+            <input type="password" placeholder="Password" value={password} onChange={e=>setPassword(e.target.value)} className="w-full bg-luxury-silver py-2.5 px-4 rounded-xl text-xs outline-none" required />
+            <button type="submit" className="w-full bg-primary text-white text-xs uppercase font-bold py-3 rounded-xl tracking-widest shadow">Sign In</button>
+          </form>
+
+          <div className="bg-luxury-silver p-4 rounded-xl border space-y-2">
+            <p className="text-[10px] text-luxury-grey">Load sandbox roles:</p>
+            <div className="flex gap-2">
+              <button onClick={()=>handleQuickLoad('user')} className="bg-white border text-[10px] py-1.5 px-3 rounded-lg flex-1 text-primary font-semibold">User Role</button>
+              <button onClick={()=>handleQuickLoad('admin')} className="bg-white border text-[10px] py-1.5 px-3 rounded-lg flex-1 text-luxury-gold font-semibold">Admin Role</button>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // REGISTER VIEW
+    const RegisterView = ({ setUser, navigateTo }) => {
+      const [name, setName] = useState('');
+      const [email, setEmail] = useState('');
+      
+      const handleRegister = (e) => {
+        e.preventDefault();
+        setUser({ name, email, role: 'user', addresses: [] });
+        navigateTo('home');
+      };
+
+      return (
+        <div className="max-w-sm mx-auto px-6 py-16 space-y-6 animate-in fade-in duration-300">
+          <h1 className="text-xl tracking-widest uppercase font-light text-center">Create Account</h1>
+          <form onSubmit={handleRegister} className="space-y-4">
+            <input type="text" placeholder="Full Name" value={name} onChange={e=>setName(e.target.value)} className="w-full bg-luxury-silver py-2.5 px-4 rounded-xl text-xs outline-none" required />
+            <input type="email" placeholder="Email Address" value={email} onChange={e=>setEmail(e.target.value)} className="w-full bg-luxury-silver py-2.5 px-4 rounded-xl text-xs outline-none" required />
+            <input type="password" placeholder="Password" className="w-full bg-luxury-silver py-2.5 px-4 rounded-xl text-xs outline-none" required />
+            <button type="submit" className="w-full bg-primary text-white text-xs uppercase font-bold py-3 rounded-xl tracking-widest shadow">Register</button>
+          </form>
+        </div>
+      );
+    };
+
+    // USER DASHBOARD VIEW
+    const DashboardView = ({ user, navigateTo }) => {
+      return (
+        <div className="max-w-4xl mx-auto px-6 py-10 space-y-8 animate-in fade-in duration-300">
+          <div>
+            <span className="text-[10px] uppercase tracking-[0.3em] text-luxury-grey">Dashboard</span>
+            <h1 className="text-2xl tracking-widest uppercase font-light">User Profile</h1>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-luxury-silver p-6 rounded-2xl border space-y-2">
+              <h3 className="text-xs uppercase font-semibold text-primary">Account Details</h3>
+              <p className="text-xs text-luxury-grey">Name: <span className="text-primary font-medium">{user?.name}</span></p>
+              <p className="text-xs text-luxury-grey">Email: <span className="text-primary font-medium">{user?.email}</span></p>
+            </div>
+            
+            <div className="bg-luxury-silver p-6 rounded-2xl border space-y-2 md:col-span-2">
+              <h3 className="text-xs uppercase font-semibold text-primary">Address Manager</h3>
+              {user?.addresses && user.addresses.length > 0 ? (
+                user.addresses.map((addr, i) => (
+                  <div key={i} className="text-xs text-luxury-grey space-y-0.5">
+                    <p className="font-semibold text-primary">{addr.street}</p>
+                    <p>{addr.city}, {addr.state} {addr.postalCode}</p>
+                    <p>{addr.country}</p>
+                  </div>
+                ))
+              ) : (
+                <p className="text-xs text-luxury-grey font-light">No saved addresses.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // ADMIN VIEW with Settings, Reviews and Coupon management tabs
+    const AdminView = ({ products, setProducts, coupons, setCoupons, user, navigateTo }) => {
+      const [activeSubTab, setActiveSubTab] = useState('analytics');
+
+      const [newCode, setNewCode] = useState('');
+      const [newPercent, setNewPercent] = useState(10);
+
+      const handleDelete = (id) => {
+        setProducts(prev => prev.filter(p => p._id !== id));
+      };
+
+      const handleAddCoupon = (e) => {
+        e.preventDefault();
+        if (!newCode.trim()) return;
+        setCoupons(prev => [
+          ...prev,
+          { code: newCode.toUpperCase(), discountPercent: newPercent, minSpend: 50, expireDate: '2026-12-31' }
+        ]);
+        setNewCode('');
+      };
+
+      return (
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-10 space-y-8 animate-in fade-in duration-300">
+          <div className="flex justify-between items-end border-b pb-4 flex-wrap gap-4">
+            <div>
+              <span className="text-[10px] uppercase tracking-[0.3em] text-luxury-grey">Administrator Panel</span>
+              <h1 className="text-2xl tracking-widest uppercase font-light">Console Hub</h1>
+            </div>
+            <div className="flex space-x-2 flex-wrap gap-y-2">
+              {['analytics', 'products', 'coupons', 'settings'].map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveSubTab(tab)}
+                  className={`py-1.5 px-3 rounded-lg text-xs uppercase tracking-wider font-semibold ${
+                    activeSubTab === tab ? 'bg-primary text-white':'bg-luxury-silver text-primary'
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {activeSubTab === 'analytics' && (
+            <div className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div className="bg-luxury-silver p-5 rounded-2xl border shadow-sm">
+                  <span className="text-[9px] uppercase tracking-wider text-luxury-grey block mb-1">Total Revenue</span>
+                  <p className="text-xl font-light text-primary">$28,430.00</p>
+                </div>
+                <div className="bg-luxury-silver p-5 rounded-2xl border shadow-sm">
+                  <span className="text-[9px] uppercase tracking-wider text-luxury-grey block mb-1">Gross Orders</span>
+                  <p className="text-xl font-light text-primary">142</p>
+                </div>
+                <div className="bg-luxury-silver p-5 rounded-2xl border shadow-sm">
+                  <span className="text-[9px] uppercase tracking-wider text-luxury-grey block mb-1">Total Users</span>
+                  <p className="text-xl font-light text-primary">85</p>
+                </div>
+                <div className="bg-luxury-silver p-5 rounded-2xl border shadow-sm">
+                  <span className="text-[9px] uppercase tracking-wider text-luxury-grey block mb-1">Total Inventory</span>
+                  <p className="text-xl font-light text-primary">{products.length}</p>
+                </div>
+              </div>
+
+              <div className="bg-luxury-silver p-6 rounded-2xl border space-y-4">
+                <h3 className="text-xs uppercase font-semibold tracking-wider text-primary">Monthly Revenue Chart</h3>
+                <div className="flex items-end justify-between h-40 pt-4 max-w-xl">
+                  {[
+                    { m: 'Jan', val: 40 },
+                    { m: 'Feb', val: 65 },
+                    { m: 'Mar', val: 78 },
+                    { m: 'Apr', val: 90 },
+                    { m: 'May', val: 110 },
+                    { m: 'Jun', val: 120 }
+                  ].map((d, i) => (
+                    <div key={i} className="flex flex-col items-center flex-1 space-y-2">
+                      <div className="bg-powder w-10 rounded-t" style={{ height: `${d.val}px` }}></div>
+                      <span className="text-[10px] text-luxury-grey font-semibold">{d.m}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeSubTab === 'products' && (
+            <div className="space-y-4">
+              <h3 className="text-xs uppercase font-semibold text-primary">Catalog Inventory CRUD</h3>
+              <div className="bg-luxury-silver rounded-2xl overflow-hidden border">
+                <table className="w-full text-xs text-left">
+                  <thead className="bg-luxury-lightGrey border-b uppercase text-[9px] tracking-wider text-primary font-semibold">
+                    <tr>
+                      <th className="px-6 py-3">SKU</th>
+                      <th className="px-6 py-3">Name</th>
+                      <th className="px-6 py-3">Price</th>
+                      <th className="px-6 py-3 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {products.map(prod => (
+                      <tr key={prod._id} className="border-b last:border-0 hover:bg-white/40">
+                        <td className="px-6 py-3 font-mono font-semibold">{prod.sku}</td>
+                        <td className="px-6 py-3 font-semibold text-primary">{prod.name}</td>
+                        <td className="px-6 py-3">${prod.price.toFixed(2)}</td>
+                        <td className="px-6 py-3 text-right">
+                          <button onClick={() => handleDelete(prod._id)} className="text-red-500 font-semibold uppercase hover:underline">Delete</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {activeSubTab === 'coupons' && (
+            <div className="space-y-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              <div className="space-y-4">
+                <h3 className="text-xs uppercase font-semibold text-primary">Active Promotions</h3>
+                <div className="bg-luxury-silver rounded-2xl p-4 border space-y-3">
+                  {coupons.map((c, i) => (
+                    <div key={i} className="flex justify-between items-center text-xs border-b pb-2 last:border-0">
+                      <div>
+                        <p className="font-semibold text-primary">{c.code}</p>
+                        <p className="text-[10px] text-luxury-grey">Discount: {c.discountPercent}% &bull; Expire: {c.expireDate}</p>
+                      </div>
+                      <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded uppercase font-bold">Active</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <form onSubmit={handleAddCoupon} className="bg-luxury-silver p-6 rounded-2xl border space-y-4">
+                <h3 className="text-xs uppercase font-semibold text-primary">Create Promo Code</h3>
+                <div className="space-y-1">
+                  <label className="text-[9px] uppercase tracking-wider text-luxury-grey">Code</label>
+                  <input type="text" value={newCode} onChange={e=>setNewCode(e.target.value)} placeholder="VIBE30" className="w-full bg-white text-xs py-2 px-3 rounded-lg outline-none" required />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[9px] uppercase tracking-wider text-luxury-grey">Discount Percent</label>
+                  <input type="number" value={newPercent} onChange={e=>setNewPercent(Number(e.target.value))} className="w-full bg-white text-xs py-2 px-3 rounded-lg outline-none" required />
+                </div>
+                <button type="submit" className="w-full bg-primary text-white text-xs uppercase font-bold py-2.5 rounded-xl tracking-widest shadow">Add Promo</button>
+              </form>
+            </div>
+          )}
+
+          {activeSubTab === 'settings' && (
+            <div className="bg-luxury-silver p-6 rounded-2xl border max-w-md space-y-4">
+              <h3 className="text-xs uppercase font-semibold text-primary">System Configurations</h3>
+              <div className="text-xs text-luxury-grey space-y-3">
+                <div className="flex justify-between items-center">
+                  <span>Carbon-Neutral courier courier shipping</span>
+                  <input type="checkbox" defaultChecked className="rounded text-primary focus:ring-0" />
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>Tax calculations Rate (8.5%)</span>
+                  <input type="checkbox" defaultChecked className="rounded text-primary focus:ring-0" />
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>Stripe Gateway sandbox simulation</span>
+                  <input type="checkbox" defaultChecked className="rounded text-primary focus:ring-0" />
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>PayPal Gateway sandbox simulation</span>
+                  <input type="checkbox" defaultChecked className="rounded text-primary focus:ring-0" />
+                </div>
+              </div>
+            </div>
+          )}
+
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

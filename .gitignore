@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Local Node portable bin
+node-v20.11.1-darwin-arm64/
+node-v20.11.1-darwin-arm64.tar.gz
+
+# Environment files
+.env
+**/ .env
+.env*.local
+
+# Production build outputs
+dist/
+**/dist/
+build/
+**/build/
+.cache/
+
+# IDE settings
+.idea/
+.vscode/settings.json
+
+# Operating System Files
+.DS_Store
+Thumbs.db
