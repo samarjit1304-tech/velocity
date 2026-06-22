@@ -1,6 +1,6 @@
-# Vibe Store - Luxury MERN Stack E-Commerce Platform
+# VELOCITY X - Luxury MERN Stack E-Commerce Platform
 
-Vibe Store is a premium e-commerce platform designed with luxury, minimalist design language (Apple-inspired UI, soft shadows, rounded corners, custom glassmorphism) and built on top of a secure, production-grade MERN architecture.
+VELOCITY X Store is a premium e-commerce platform designed with luxury, minimalist design language (Apple-inspired UI, soft shadows, rounded corners, custom glassmorphism) and built on top of a secure, production-grade MERN architecture.
 
 ---
 
