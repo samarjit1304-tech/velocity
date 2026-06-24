@@ -55,9 +55,11 @@ app.use('/api/payments', require('./routes/paymentRoutes'));
 app.use('/api/coupons', require('./routes/couponRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 
+const path = require('path');
+
 // Root route
 app.get('/', (req, res) => {
-  res.json({ message: 'Vibe Store API is running...' });
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Error handling middleware
